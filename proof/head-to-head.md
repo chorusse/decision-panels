@@ -5,7 +5,8 @@
 Status: **Part 1 (method comparison) is complete and sourced.** Part 2 (empirical results) is
 pre-registered below and **not yet run** — see "What this document does not yet claim."
 
-Last updated 2026-07-27.
+Last updated 2026-07-27 (revised the same day: the peer-review gap described below has since been
+closed — see *"Where LLM Council was genuinely better"*).
 
 ---
 
@@ -40,8 +41,9 @@ synthesizes. The differences are in sequencing, and sequencing is where the valu
 | **Advisors** | 5–7, **selected per decision** from a lens library or crafted bespoke | 5, **fixed** (Contrarian, First Principles, Expansionist, Outsider, Executor) | 1 |
 | **Calibrating questions** | **2–3, always**, chosen for this decision | **One, and only if the question is vague** | None |
 | **Independent takes before convergence** | Yes | Yes | n/a |
-| **Peer review round** | **No** | **Yes** — anonymised A–E, each advisor reviews all five | No |
-| **Anonymisation** | Not yet | **Yes, in the peer-review round** | n/a |
+| **Peer review round** | **Yes** — anonymised A–E, four fixed questions, and flips must name the argument that caused them | **Yes** — anonymised A–E, each advisor reviews all five | No |
+| **Anonymisation** | **Yes — held through synthesis**; names re-attached only in the final brief | Yes, in the peer-review round; de-anonymised for the chairman | n/a |
+| **Conformity guard** | **Yes** — unexplained flips toward the majority are reported as conformity, not agreement | No | n/a |
 | **Solo baseline / control** | **Yes — measured and reported every run** | No | Is the baseline |
 | **Calibrated confidence** | **Yes — High/Med/Low, stated** | No | Rarely |
 | **"What would change the call"** | **Yes, first-class** | No | Rarely |
@@ -50,22 +52,37 @@ synthesizes. The differences are in sequencing, and sequencing is where the valu
 | **Concrete first step** | No | **Yes — "the one thing to do first"** | Sometimes |
 | **Shareable brief artifact** | **Yes, templated** | Presented in chat; transcript optional | No |
 
-### Where LLM Council is genuinely better
+### Where LLM Council was genuinely better
 
 Publishing a comparison that concludes "we win on everything" would be worthless, and this one doesn't.
 
-1. **The peer-review round is a real mechanism, and we don't have it.** Advisors reviewing each other's
-   anonymised responses — "which is strongest, which has the biggest blind spot, what did everyone
-   miss" — is the actual insight from [Karpathy's LLM Council][karpathy], and it catches things no
-   single independent pass catches. Our panel converges straight to synthesis. **This is the strongest
-   thing in their skill and the clearest gap in ours.**
-2. **Workspace context enrichment.** They scan `CLAUDE.md`, `memory/`, and past transcripts before
+**The peer-review round — their idea, the clearest gap in ours, and now closed.** Advisors reviewing
+each other's anonymised responses — "which is strongest, which has the biggest blind spot, what did
+everyone miss" — is the actual insight from [Karpathy's LLM Council][karpathy], and it catches things no
+single independent pass catches. Our panel converged straight to synthesis. **We read their source,
+agreed it was the strongest thing in their skill, and built it** — Decision Panels step 6, shipped in
+v1.1.0. Credit where it is owed: we have this because they had it first.
+
+We did not clone it. Three deliberate differences, none of them proven better yet:
+
+- **Anonymity is held through synthesis.** They unmask for the chairman; we rank the arguments blind and
+  re-attach names only in the brief the reader sees.
+- **A position change must name the argument that caused it.** Movement toward the majority with no new
+  argument is reported as conformity rather than counted as agreement — the literature finds socially
+  driven flips run correct→wrong more often than the reverse.
+- **The round is measured like everything else here.** Step 9 says which round did the work, and is
+  required to report *"the peer review round didn't add anything here"* when that is what happened. A
+  mechanism that can never be reported as useless is one you cannot trust when it claims value.
+
+**Still true, and not closed:**
+
+1. **Workspace context enrichment.** They scan `CLAUDE.md`, `memory/`, and past transcripts before
    framing, so advisors give grounded rather than generic advice. We ask the user instead. Theirs is
    lower-friction and often better-informed; ours is better when the workspace is empty or misleading.
    We should probably do both.
-3. **"The one thing to do first."** A single concrete next step, mandated. Ours ends at a ranked
+2. **"The one thing to do first."** A single concrete next step, mandated. Ours ends at a ranked
    recommendation and can leave the user without a Monday morning.
-4. **Fixed advisors are more predictable.** Our per-decision selection is more flexible but less
+3. **Fixed advisors are more predictable.** Our per-decision selection is more flexible but less
    reproducible — two runs of ours on the same question may seat different lenses.
 
 ### Where Decision Panels is genuinely better
@@ -138,8 +155,10 @@ the same sycophancy argument our differentiator rests on, already shipped, in th
 stars.
 
 What survives: they anonymise *during peer review* and de-anonymise for the chairman. The unexplored
-variant is anonymity *through synthesis*. That is a narrower and much less impressive claim than
-"nobody does this," and it should not be marketed as a differentiator.
+variant is anonymity *through synthesis* — which is what v1.1.0 builds. That is a narrower and much less
+impressive claim than "nobody does this," and it should not be marketed as a differentiator. Holding
+anonymity one round longer than the category leader is a design choice we think is right; it is not
+evidence, and until Part 2 runs it should be described as untested.
 
 **Consequence:** differentiator #2 is downgraded — it is a parity feature, not an edge. This
 strengthens the decision already taken to build only the solo baseline first. The remaining

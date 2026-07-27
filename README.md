@@ -19,7 +19,9 @@ Decision Panels measures it. On every run it:
 1. Takes a **solo baseline** — one strong single-pass answer — *before* the panel is convened,
 2. Hides that baseline from the panel so the comparison means something,
 3. Convenes 5–7 advisors chosen for *your* decision, hears them independently, keeps the disagreement,
-4. And then **reports whether the panel actually beat the baseline** — including the runs where it
+4. Has them **cross-examine each other blind** — answers stripped of authorship and relabelled A–E, so
+   arguments are judged on merit rather than on which advisor said them,
+5. And then **reports whether the panel actually beat the baseline** — including the runs where it
    didn't, in those words: *"The panel did not beat the single answer here. You could have asked once."*
 
 That last step is the product. A panel that can't tell you when it was unnecessary isn't one you can
@@ -53,14 +55,14 @@ recommendation. That step is not filler; a panel run on guessed inputs produces 
 up as rigor. Answer them in a sentence each.
 
 You get back a **decision brief**: the recommendation with a stated confidence, the panel's real
-disagreement, the strongest case *against* the recommendation, what would change the call — and the
-baseline comparison.
+disagreement, what the blind review round caught — including the thing *every* advisor missed — the
+strongest case *against* the recommendation, what would change the call, and the baseline comparison.
 
 ## What's in here
 
 | File | What it is |
 |---|---|
-| `SKILL.md` | The method. 9 steps, in order. This is the actual asset. |
+| `SKILL.md` | The method. 10 steps, in order. This is the actual asset. |
 | `references/panel-lenses.md` | The advisor-lens library to draw panels from |
 | `references/decision-brief-template.md` | The output format — built to be forwarded |
 | `examples/example-pricing-decision.md` | A worked run end to end |

@@ -23,16 +23,27 @@ _The 2–3 decisive reasons, in order of weight. Rank the alternatives: [A] over
 
 _One or two lines: exactly what the panel added, or — if it added nothing — say so plainly: "The panel did not beat the single answer here. You could have asked once." Then one line on what kind of decision **would** have needed a panel._
 
+**Which round did the work:** _the independent takes, or the blind peer review — or neither, said plainly._
+
 > _This section is mandatory. A brief without it is incomplete. Decision Panels reports this on every run, including the runs where the answer is unflattering — that is what makes the other runs worth believing._
 
 ## The panel
-_One line per panelist: name — its position — the crux of its reasoning._
+_One line per panelist: name — its position — the crux of its reasoning. Positions are the ones held **after** the blind review; note any that moved._
 - **[Lens]:** [position] — [why]
-- **[Lens]:** [position] — [why]
+- **[Lens]:** [position] — [why] _(moved after review: [the argument that moved it])_
 - _(…5–7 lenses)_
 
+## What the blind review caught
+_The panelists read each other's answers anonymised, without knowing who wrote what. Keep this to three lines._
+
+- **What everyone missed:** _the consideration absent from every independent take — usually the most valuable line in the brief._
+- **Biggest blind spot named:** _which position had it, and what it was._
+- **Who moved, and who held:** _positions that changed and the specific argument that changed them; anyone who held out under pressure and why they were not answered. If a position moved with no new argument behind it, say so — that is conformity, not agreement._
+
+_If the review round changed nothing, say that in one line rather than dressing it up._
+
 ## The real disagreement
-_The sharpest genuine split on the panel, both sides steelmanned. This is the part a single opinion would have hidden._
+_The sharpest genuine split **that survived cross-examination**, both sides steelmanned. This is the part a single opinion would have hidden._
 
 ## The strongest case against the recommendation (preserved dissent)
 _Stated so a smart skeptic would nod. Do not soften it. If the recommendation is wrong, this is probably why._
