@@ -44,6 +44,8 @@ synthesizes. The differences are in sequencing, and sequencing is where the valu
 | **Peer review round** | **Yes** — anonymised A–E, four fixed questions, and flips must name the argument that caused them | **Yes** — anonymised A–E, each advisor reviews all five | No |
 | **Anonymisation** | **Yes — held through synthesis**; names re-attached only in the final brief | Yes, in the peer-review round; de-anonymised for the chairman | n/a |
 | **Conformity guard** | **Yes** — unexplained flips toward the majority are reported as conformity, not agreement | No | n/a |
+| **Decides whether to convene at all** | **Yes — a measured gate**: three one-line scout probes; converge on pick *and* crux → no panel, stated plainly, full panel offered. Never gates a one-way door | Prose instruction only — *"assess whether the input warrants it"*, no mechanism | n/a |
+| **Panel seated by** | **Observed disagreement** on this question | Fixed cast | n/a |
 | **Solo baseline / control** | **Yes — measured and reported every run** | No | Is the baseline |
 | **Calibrated confidence** | **Yes — High/Med/Low, stated** | No | Rarely |
 | **"What would change the call"** | **Yes, first-class** | No | Rarely |

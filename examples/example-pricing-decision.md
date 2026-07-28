@@ -29,6 +29,8 @@ Ranking: **B over D over A over C.** D (middle) hedges the *information* you're 
 
 Same call, roughly the same confidence — but the panel surfaced the tail on grandfathering that the single answer never raised: you are committing to maintain two price tiers indefinitely, and every future increase gets *harder*, because you'll have taught your base that loyalty means immunity. Worth knowing before you commit, not after. What would have needed a panel outright: a decision where the options differ in kind rather than in degree.
 
+**The gate:** the three scouts split 2–1 on the option and disagreed about the crux entirely — one said the binding constraint was churn risk, one said it was acquisition, one said it was information. That split is why a panel was convened, and it picked the panel: the Skeptic and the Runway Realist were both scouts.
+
 **Which round did the work:** the **blind peer review**. All five independent takes converged on some form of "test on new customers"; none of them named the grandfathering tail until they read each other.
 
 ## The panel

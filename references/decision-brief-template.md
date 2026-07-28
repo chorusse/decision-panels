@@ -25,6 +25,8 @@ _One or two lines: exactly what the panel added, or — if it added nothing — 
 
 **Which round did the work:** _the independent takes, or the blind peer review — or neither, said plainly._
 
+**The gate:** _the three scouts split [how], which is why a panel was convened. (Note any scout whose full take differed from its one-line probe.)_
+
 > _This section is mandatory. A brief without it is incomplete. Decision Panels reports this on every run, including the runs where the answer is unflattering — that is what makes the other runs worth believing._
 
 ## The panel
@@ -50,6 +52,41 @@ _Stated so a smart skeptic would nod. Do not soften it. If the recommendation is
 
 ## What would change the call
 _The specific new information or changed condition that would flip the ranking — i.e. what to go find out before (or instead of) committing._
+
+---
+
+# The short brief — when the gate stopped the run
+
+Use this shape when step 4 converged and no panel was convened. It is a complete deliverable, not a stub: the user still gets a call they can act on, and an honest account of why it cost them less than they expected.
+
+---
+
+## Decision
+> _One-sentence statement of the real decision, as reframed in step 1._
+
+**Options considered:** _A · B · C (and "do nothing" if relevant)._
+**Stakes / reversibility:** _one line — and note that this is why gating was allowed at all._
+
+## The recommendation
+**→ [Chosen option].** Confidence: **[High / Medium / Low]**
+
+_The 2–3 decisive reasons, in order of weight._
+
+## No panel was convened — here's why
+_Three lenses that disagree about most things were asked for a one-line read: **[Lens A]**, **[Lens B]**, **[Lens C]**. [Two/Three] of them picked the same option **and** named the same crux._
+
+**The crux they all landed on:** _the fact or assumption this decision actually turns on._
+
+> _"A panel was unlikely to change this call, so I didn't run one."_
+
+**What would have made me convene:** _the specific thing that would have split them — so the user learns when a panel is worth asking for._
+
+## What would change the call
+_The specific new information or changed condition that would flip it._
+
+---
+
+**Want the full panel anyway?** _Say so and it runs — 5–7 lenses, independent takes, blind peer review, the disagreement preserved. The gate is a default, not a refusal._
 
 ---
 
