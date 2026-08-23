@@ -84,3 +84,5 @@ strongest case *against* the recommendation, what would change the call, and the
 
 *Decision Panels, by [Chorusse](https://chorusse.com) — many expert voices in, the disagreement kept
 honest, one clear call out.*
+
+*Built by Daniel A. Bauer · [linkedin.com/in/danbauer](https://www.linkedin.com/in/danbauer)*
