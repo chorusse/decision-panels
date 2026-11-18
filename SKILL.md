@@ -1,161 +1,200 @@
 ---
 name: decision-panels
-description: Convene a panel of diverse expert advisors to pressure-test a hard decision and hand back a ranked recommendation with the dissent preserved — it probes cheaply first and will decline to convene a panel it doesn't think you need, the advisors cross-examine each other's answers blind, and the whole panel is measured against a solo baseline, so it reports honestly when the panel did not beat a single good answer. Use when someone faces a high-stakes or hard-to-reverse choice — a strategic bet, a painful tradeoff, a go/no-go, a "which of these" — and wants more than one mind on it before they commit. Triggers: "help me decide", "should I", "which should we", "I'm torn between", "pressure-test this decision", "run a panel on".
+description: Convene a panel of diverse expert advisors to pressure-test a hard decision and hand back a ranked recommendation with the dissent preserved. It probes cheaply first and will decline to convene a panel it doesn't think you need, the advisors cross-examine each other's answers blind, and the whole panel is measured against a solo baseline, so it reports honestly when the panel did not beat a single good answer. Use when someone faces a high-stakes or hard-to-reverse choice (a strategic bet, a painful tradeoff, a go/no-go, a "which of these") and wants more than one mind on it before they commit. Triggers: "help me decide", "should I", "which should we", "I'm torn between", "pressure-test this decision", "run a panel on".
 ---
 
 # Decision Panels
 
-A hard decision deserves more than one perspective. This skill convenes a **panel of diverse expert advisors**, has them weigh in *independently*, makes them **cross-examine each other's answers blind**, surfaces where they genuinely disagree, and synthesizes it into **one ranked recommendation — with the strongest dissent kept on the record**, not smoothed away.
+A hard decision deserves more than one perspective. This skill convenes a **panel of diverse expert advisors**, has them weigh in *independently*, makes them **cross-examine each other's answers blind**, surfaces where they genuinely disagree, and synthesizes it into **one ranked recommendation, with the strongest dissent kept on the record**, not smoothed away.
 
-**It will also refuse to waste your time.** Before convening anything, it asks three maximally-different lenses for a one-line read. If they agree on both the call and the crux it turns on, there is nothing for a panel to resolve — so it says so, hands back the answer, and doesn't run one. (Unless the decision is hard to reverse. There it convenes anyway: cheap is the wrong optimisation on a one-way door.)
+**It will also refuse to waste your time.** Before convening anything, it asks three maximally-different lenses for a one-line read. If they agree on both the call and the crux it turns on, there is nothing for a panel to resolve, so it says so, hands back the answer, and doesn't run one. (Unless the decision is hard to reverse. There it convenes anyway: cheap is the wrong optimisation on a one-way door.)
 
-**And it shows its own work against a control.** Before the panel is convened, this skill takes a **solo baseline** — one strong single-pass answer to the same question — and at the end it reports plainly whether the panel actually beat it. Sometimes it doesn't. When that happens, this skill says so. That is the point: a panel that can't tell you when it was unnecessary is a panel you can't trust when it says it was.
+**And it shows its own work against a control.** Before the panel is convened, this skill takes a **solo baseline**, one strong single-pass answer to the same question, and at the end it reports plainly whether the panel actually beat it. Sometimes it doesn't. When that happens, this skill says so. That is the point: a panel that can't tell you when it was unnecessary is a panel you can't trust when it says it was.
 
-It runs entirely in this conversation, on the user's own Claude. No accounts, no data leaves the chat.
+It runs entirely in this conversation, on the user's own assistant, Claude or Codex. No accounts, no data leaves the chat.
 
-## The method — follow these steps in order
+## The method: follow these steps in order
+
+### 0. Load the packs that fit
+
+Packs supply the domain judgement several later steps depend on: the calibration questions worth asking (step 2), the scouts most likely to disagree here (step 4a), what counts as a one-way door in this field (step 4c), the lens roster (steps 4e–5), and how to keep the step-9 verdict honest rather than flattering.
+
+They come in **three tiers, and they compose**. Read whichever fit **before step 1**:
+
+| Tier | Directory | What it supplies | Load |
+|---|---|---|---|
+| **General** | `references/packs/general/` | **Lenses only.** The handful every business owns in common, plus the guardrails that always bind. No fault lines, by design | Almost always |
+| **Sector** | `references/packs/sector/` | A full pack for a *shape* of business, e.g. owner-operated professional services | When the shape matches |
+| **Vertical** | `references/packs/vertical/` | A full pack for one profession, e.g. tax & accounting firms | Only on a real match |
+
+**Load at most one per tier.** Two verticals never load together.
+
+**The general tier is not a general-purpose pack.** It carries no decision classes, fault lines or
+scout triples, because a fault line is a tension a *particular domain* argues about and no general
+tier can know that. The substance of a panel comes from the sector and vertical tiers; general
+supplies common lenses so the other tiers don't reinvent them. **If a panel is leaning on the general
+tier for the substance of a decision, the panel is thin. Say so in the step-9 verdict rather than
+compensating with a more assertive brief.**
+
+#### How they compose
+
+- **Lenses accumulate; the panel does not.** Loading three packs widens the *candidate pool*, not the seated panel. Step 4 still selects by observed disagreement, and 5–7 seats is still the ceiling. More packs must never mean a bigger panel; it means a better-chosen one.
+- **Precedence on conflict: vertical > sector > general.** Where two packs disagree about a fault line, a one-way door, or how to read a decision, the more specific pack wins and the broader one yields.
+- **Guardrails are the exception: they only ever accumulate.** Every loaded pack's domain guardrails bind simultaneously. A narrower pack can add prohibitions; nothing can lift one. If any loaded pack says no lens may assert something, no lens asserts it.
+- **Broader packs fill silence.** Where the vertical pack says nothing about a decision class (marketing, hiring, pricing), the sector and general packs are what you use, rather than improvising profession-specific reasoning that has no basis.
+
+#### The rules that hold regardless
+
+- **A pack informs the method; it never overrides it.** Every step still runs: the baseline, the gate, the blind review, and the step-9 verdict especially. A pack that appears to license skipping one is being misread.
+- **A pack's domain guardrails are binding.** Where a pack says no lens may assert something (a regulation, a threshold, a professional obligation), that holds absolutely, and no panelist may argue a position whose force depends on the claim.
+- **Never stretch a vertical pack onto an adjacent profession.** A pack aimed at the wrong field is worse than no pack, because it is confidently specific about fault lines that aren't there. If the vertical doesn't match, drop to sector and general. That combination is a perfectly good panel, not a degraded one. Each pack names what it is *not* for; honour that.
+- **Claims marked contested stay contested.** Packs flag some claims as plausible-but-unvalidated. A lens may reason *from* one only by naming it as an assumption the user can correct, never as established fact about their business.
+
+If nothing fits, run the method as written and seat lenses from `references/panel-lenses.md`.
 
 ### 1. Frame the decision
 Restate the decision in one crisp sentence, then identify:
 - **The real question** (often narrower or different than first stated).
 - **The options actually on the table** (name them; if only one is stated, propose the realistic alternatives including "do nothing").
-- **The stakes and reversibility** — how consequential, how hard to undo. This sets how hard the panel should push.
+- **The stakes and reversibility**: how consequential, how hard to undo. This sets how hard the panel should push.
 
-### 2. Calibrate — ask 2–3 sharp questions first (always)
-Before convening the panel, ask the **2–3 questions whose answers would most change the recommendation**, chosen for *this* decision — never boilerplate. These are usually the same high-leverage unknowns that would otherwise end up in "What would change the call"; asking them up front makes the panel *sharp* instead of hedged. Aim them at what you genuinely cannot infer:
+### 2. Calibrate: ask 2–3 sharp questions first (always)
+Before convening the panel, ask the **2–3 questions whose answers would most change the recommendation**, chosen for *this* decision, never boilerplate. These are usually the same high-leverage unknowns that would otherwise end up in "What would change the call"; asking them up front makes the panel *sharp* instead of hedged. Aim them at what you genuinely cannot infer:
 - what **"winning"** actually means to the user here,
-- the **binding constraint** — is this really about time? money? risk? nerve? — because the panel should push hardest there,
+- the **binding constraint**, whether this is really about time, money, risk or nerve, because the panel should push hardest there,
 - the **private context** no panel can guess: how much they enjoy it, what they'd do with the freed-up time or money, what they're actually afraid of.
 
-Keep each question answerable in a sentence. Ask them together, then wait for the answers. If the user says "just run it," proceed on **explicit stated assumptions** and flag them in the brief — but default to asking.
+Keep each question answerable in a sentence. Ask them together, then wait for the answers. If the user says "just run it," proceed on **explicit stated assumptions** and flag them in the brief, but default to asking.
 
-### 3. Take the solo baseline — before any panel exists
+### 3. Take the solo baseline, before any panel exists
 
 **Do this before step 4, and do it honestly.** Answer the decision *once*, as a single strong advisor, using the framing from step 1 and the answers from step 2. Give:
-- **one recommendation** (rank the options — same output shape the panel will have to produce),
+- **one recommendation** (rank the options, the same output shape the panel will have to produce),
 - **a confidence level**,
 - **the single reason that most drives it.**
 
-Keep it to a short paragraph. This is not a strawman and it is not a warm-up — it is the **control** the panel has to beat, so it must be the best single-pass answer you can actually give. Deliberately weakening it to make the panel look good is the one failure that would make this whole product dishonest.
+Keep it to a short paragraph. This is not a strawman and it is not a warm-up. It is the **control** the panel has to beat, so it must be the best single-pass answer you can actually give. Deliberately weakening it to make the panel look good is the one failure that would make this whole product dishonest.
 
 Then **set it aside and do not look at it again until step 9.** The panel in steps 4–6 must not be told what the baseline concluded; if the panelists are anchored to it, the comparison measures nothing.
 
-> **Why this exists.** The research on multi-agent deliberation is genuinely deflationary — for many decisions, several advisors arrive where one good one already was, at several times the cost. Most tools in this category hide that. This one measures it, every run, and reports the result.
+> **Why this exists.** The research on multi-agent deliberation is genuinely deflationary. For many decisions, several advisors arrive where one good one already was, at several times the cost. Most tools in this category hide that. This one measures it, every run, and reports the result.
 
-### 4. Scout the disagreement — then convene, or stop
+### 4. Scout the disagreement, then convene or stop
 
-**Most decisions don't need a panel.** Before you spend one, find out cheaply whether the lenses would even disagree — because if they wouldn't, the panel cannot change the call, and running it anyway is theater the user paid for.
+**Most decisions don't need a panel.** Before you spend one, find out cheaply whether the lenses would even disagree, because if they wouldn't, the panel cannot change the call, and running it anyway is theater the user paid for.
 
-**a. Three scouts, one line each.** Pick the **three most distant lenses** you would consider seating for this decision — not the eventual panel, just the three whose worldviews are furthest apart *here*. Each returns exactly two things:
+**a. Three scouts, one line each.** Pick the **three most distant lenses** you would consider seating for this decision, not the eventual panel, just the three whose worldviews are furthest apart *here*. Each returns exactly two things:
 - **the option it picks**, and
-- **its crux** — the one fact or assumption that, if reversed, would flip its pick.
+- **its crux**: the one fact or assumption that, if reversed, would flip its pick.
 
 No paragraphs. This is a probe, not an argument. Scouts don't see the baseline and don't see each other.
 
-**b. Test for convergence — on the pick *and* the crux.** Two scouts landing on the same option for unrelated reasons is **not** convergence. In an open-ended decision the crux is the part that matters, because it's what the user has to go act on — two lenses agreeing on "raise the price" while disagreeing about *why* have not settled anything. Convergence means **at least two of the three pick the same option and name the same binding crux.**
+**b. Test for convergence, on the pick *and* the crux.** Two scouts landing on the same option for unrelated reasons is **not** convergence. In an open-ended decision the crux is the part that matters, because it's what the user has to go act on. Two lenses agreeing on "raise the price" while disagreeing about *why* have not settled anything. Convergence means **at least two of the three pick the same option and name the same binding crux.**
 
-**c. The stakes override — never skip a one-way door.** If step 1 marked this decision hard to reverse or high-stakes, **convene regardless of what the scouts did.** There, the panel's value isn't only that it might change the call — it's having the dissent on the record before someone commits. And the cost of wrongly skipping is asymmetric: a wasted panel costs tokens, a skipped one costs the decision.
+**c. The stakes override: never skip a one-way door.** If step 1 marked this decision hard to reverse or high-stakes, **convene regardless of what the scouts did.** There, the panel's value isn't only that it might change the call; it's having the dissent on the record before someone commits. And the cost of wrongly skipping is asymmetric: a wasted panel costs tokens, a skipped one costs the decision.
 
-**d. If the scouts converged — stop, and say so.** Don't convene. Deliver the short brief: the baseline recommendation and confidence, the crux all the scouts landed on, what would change it, and this, plainly:
+**d. If the scouts converged, stop and say so.** Don't convene. Deliver the short brief: the baseline recommendation and confidence, the crux all the scouts landed on, what would change it, and this, plainly:
 
 > *"I didn't convene a panel. Three lenses that disagree about most things agreed about this one, so a panel was unlikely to change the call. What would have made me convene: [the specific thing that would have split them]."*
 
-Then **offer to run it anyway.** This is a default, not a refusal — if the user wants the full panel, run the full panel without argument.
+Then **offer to run it anyway.** This is a default, not a refusal. If the user wants the full panel, run the full panel without argument.
 
-**e. If the scouts diverged — convene, and let the divergence pick the panel.** Seat **5–7 lenses**, starting with **the scouts that actually disagreed** — they have already proven they have something to fight about here — plus the lenses whose remit covers the **contested crux**. Fill the rest from `references/panel-lenses.md` or craft bespoke ones. Diversity is the product: a panel that agrees by construction is theater. Name each panelist and its one-line remit so the user knows who's in the room.
+**e. If the scouts diverged, convene and let the divergence pick the panel.** Seat **5–7 lenses**, starting with **the scouts that actually disagreed**, which have already proven they have something to fight about here, plus the lenses whose remit covers the **contested crux**. Fill the rest from `references/panel-lenses.md` or craft bespoke ones. Diversity is the product: a panel that agrees by construction is theater. Name each panelist and its one-line remit so the user knows who's in the room.
 
-This is why the scout round pays for itself even when it doesn't stop anything: it seats the panel by **observed disagreement on this question** rather than by guessing which lenses "fit" — and guessing is the part of the lens-library idea the evidence is least kind to.
+This is why the scout round pays for itself even when it doesn't stop anything: it seats the panel by **observed disagreement on this question** rather than by guessing which lenses "fit", and guessing is the part of the lens-library idea the evidence is least kind to.
 
-> **What this claim is, and what it isn't.** Cheap-probe agreement is a reliable signal that *skipping is safe*. It is **not** proof a panel would have been useless — the research supports the first and not the second. So the skill claims the first: when scouts converge, a panel is unlikely to change the call. Say that; don't inflate it into "you didn't need a panel, guaranteed."
+> **What this claim is, and what it isn't.** Cheap-probe agreement is a reliable signal that *skipping is safe*. It is **not** proof a panel would have been useless; the research supports the first and not the second. So the skill claims the first: when scouts converge, a panel is unlikely to change the call. Say that; don't inflate it into "you didn't need a panel, guaranteed."
 
-### 5. Hear each panelist — independently
+### 5. Hear each panelist independently
 Each panelist gives its **honest, independent read** before anyone converges:
-- its recommendation (take a position — no fence-sitting),
+- its recommendation (take a position, no fence-sitting),
 - the reasoning that drives it,
 - the one fact or assumption its view hinges on.
 Keep them genuinely distinct. A panelist should disagree wherever a real expert of that type would. Do **not** let them drift toward each other yet.
 
-The three scouts from step 4 already have a position on the record. They **expand** it here rather than restate it — and if having room to reason changes a scout's pick, say so explicitly. A lens that moved once it had to justify itself is worth flagging: it means the probe was close, and it belongs in the step-9 verdict.
+The three scouts from step 4 already have a position on the record. They **expand** it here rather than restate it, and if having room to reason changes a scout's pick, say so explicitly. A lens that moved once it had to justify itself is worth flagging: it means the probe was close, and it belongs in the step-9 verdict.
 
-### 6. Anonymised peer review — the panel reads itself, blind
+### 6. Anonymised peer review: the panel reads itself, blind
 
 This is the round where a panel earns its cost over five parallel monologues: **an advisor can see the hole in an argument its author cannot.** Run it in this order.
 
-**a. Strip the identities.** Relabel the step-5 takes **A, B, C…** in an order that is *not* the seating order, and remove the tells — lens names, signature vocabulary, giveaway framings like *"as the numbers person…"*. If a reviewer can tell which take belongs to the Skeptic, it will defer to it — or dismiss it — on reputation rather than merit. Reputation-weighting is exactly what this round exists to prevent.
+**a. Strip the identities.** Relabel the step-5 takes **A, B, C…** in an order that is *not* the seating order, and remove the tells: lens names, signature vocabulary, giveaway framings like *"as the numbers person…"*. If a reviewer can tell which take belongs to the Skeptic, it will defer to it, or dismiss it, on reputation rather than merit. Reputation-weighting is exactly what this round exists to prevent.
 
 **b. Each panelist reviews every take but its own.** A line or two per question, no essays:
-- **Which take is strongest, and why** — judged on the argument, never the style or the confidence it was delivered with.
-- **Which take has the biggest blind spot** — name the specific thing it misses, not a vague "lacks nuance."
-- **What did *all* of us miss?** — the consideration absent from every take. This question is worth more than the other three combined; do not accept a platitude as an answer to it.
-- **One claim here I'd challenge** — the specific assertion the reviewer thinks is wrong or unsupported, and what evidence would settle it.
+- **Which take is strongest, and why**, judged on the argument, never the style or the confidence it was delivered with.
+- **Which take has the biggest blind spot**: name the specific thing it misses, not a vague "lacks nuance."
+- **What did *all* of us miss?** The consideration absent from every take. This question is worth more than the other three combined; do not accept a platitude as an answer to it.
+- **One claim here I'd challenge**: the specific assertion the reviewer thinks is wrong or unsupported, and what evidence would settle it.
 
-**c. Positions may change — but only for a named reason.** After reviewing, each panelist holds or moves. A move counts only if the panelist names **the specific argument that moved it**. *"The others disagreed with me"* is not a reason — it is conformity, and it is the documented failure mode of group deliberation: when models flip toward the majority for social rather than substantive reasons, the flip is more often correct→wrong than wrong→correct. Record who moved and on what argument, and **who held under pressure**. A lone holdout who names an objection nobody can answer is a signal, not a straggler — carry it into step 7.
+**c. Positions may change, but only for a named reason.** After reviewing, each panelist holds or moves. A move counts only if the panelist names **the specific argument that moved it**. *"The others disagreed with me"* is not a reason. It is conformity, and it is the documented failure mode of group deliberation: when models flip toward the majority for social rather than substantive reasons, the flip is more often correct→wrong than wrong→correct. Record who moved and on what argument, and **who held under pressure**. A lone holdout who names an objection nobody can answer is a signal, not a straggler. Carry it into step 7.
 
-**d. Stay blind until the call is made.** The anonymity here is *within the panel* — the user already met the roster in step 4; what's withheld is which take belongs to which lens. Keep it withheld: steps 7–8 weigh the arguments as A/B/C, and only the brief in step 10 re-attaches names, so the reader can see who was in the room after the call was made on the arguments alone. Unmasking earlier throws away the round.
+**d. Stay blind until the call is made.** The anonymity here is *within the panel*. The user already met the roster in step 4; what's withheld is which take belongs to which lens. Keep it withheld: steps 7–8 weigh the arguments as A/B/C, and only the brief in step 10 re-attaches names, so the reader can see who was in the room after the call was made on the arguments alone. Unmasking earlier throws away the round.
 
-Be honest about what this is worth in a single conversation: you wrote all the takes, so the blindness is a discipline you impose, not a guarantee you can verify. It still works — judging an argument stripped of its author is a different act than judging one you're defending. Where subagents are available, see the last section for the version that doesn't rely on discipline at all.
+Be honest about what this is worth in a single conversation: you wrote all the takes, so the blindness is a discipline you impose, not a guarantee you can verify. It still works: judging an argument stripped of its author is a different act than judging one you're defending. Where subagents are available, see the last section for the version that doesn't rely on discipline at all.
 
 **Do not show this round the step-3 baseline.** Same rule, same reason as before.
 
 > **Scale it to the stakes.** For a small, reversible decision, run one compact pass: each panelist answers only *"biggest blind spot in another take"* and *"what did we all miss"*, with no flip-tracking. Reserve the full four-question round for calls that are expensive to get wrong.
 
 ### 7. Surface the real disagreement
-Name the **sharpest genuine conflict** on the panel and state *both sides at full strength* — the steelman of each. This tension is the most valuable output; it's what a single opinion would have hidden. Use the **post-review** positions, and give the conflict that *survived* cross-examination priority over one that was answered in step 6 — a disagreement one side has already conceded is not the real one.
+Name the **sharpest genuine conflict** on the panel and state *both sides at full strength*, the steelman of each. This tension is the most valuable output; it's what a single opinion would have hidden. Use the **post-review** positions, and give the conflict that *survived* cross-examination priority over one that was answered in step 6; a disagreement one side has already conceded is not the real one.
 
 If the panel is nearly unanimous, say so plainly and explain why the decision is less hard than it felt. But check first that the unanimity was there in step 5 and not manufactured in step 6: **agreement that appeared only after the panelists read each other, with no new argument behind it, is conformity and should be reported as such, not as consensus.**
 
-### 8. Synthesize — one ranked call
+### 8. Synthesize into one ranked call
 Deliver:
 - **The recommendation:** rank the options (this over that over the other), with a **confidence level** (high / medium / low) and the 2–3 decisive reasons.
 - **The preserved dissent:** the strongest case *against* the recommendation, stated so a smart skeptic would nod. Never bury it.
 - **What would flip it:** the specific new information or changed condition that would change the ranking. This tells the user what to go find out.
 
-Weigh what step 6 produced: the thing *every* panelist missed, and any claim that was challenged and did not survive. A take that reviewers agreed was strongest carries more weight than one delivered most confidently — but a lone unanswered objection is not outvoted, it is unresolved, and it belongs in the dissent.
+Weigh what step 6 produced: the thing *every* panelist missed, and any claim that was challenged and did not survive. A take that reviewers agreed was strongest carries more weight than one delivered most confidently, but a lone unanswered objection is not outvoted, it is unresolved, and it belongs in the dissent.
 
-### 9. Score the panel against the baseline — and say so plainly
+### 9. Score the panel against the baseline, and say so plainly
 
 **If the step-4 gate stopped the run, there is no panel to score.** Report the gate instead: what the three scouts agreed on, and that no panel was convened. Then skip to step 10 and deliver the short brief. Do not invent a panel verdict for a panel that never sat.
 
-Otherwise, retrieve the step-3 baseline and compare it to the step-8 synthesis. Assign **exactly one verdict**:
+Otherwise, re-read the step-3 baseline in full, then the step-8 synthesis, and assign **exactly one verdict**. Choosing it is a procedure, not a judgement call: work the gates below in order and stop at the first honest yes. `references/verdict-rubric.md` holds the full tests, the swap test, the ties-go-down rule, and the four ways this verdict goes wrong when the grader is also the author. Where this summary and the rubric differ, the rubric wins.
 
-- **Panel changed the call.** The recommendation itself is different from the baseline's. Say what the panel saw that a single pass missed.
-- **Panel changed the confidence.** Same recommendation, but the panel materially moved how sure you should be — up, because independent lenses converged; or down, because a real objection surfaced. Name the specific thing that moved it.
-- **Panel added a decisive risk.** Same recommendation and roughly the same confidence, but the panel surfaced a consequence, failure mode, or dissent the baseline never raised, and the user would want it before committing. Name it.
-- **Panel added nothing.** Same call, same confidence, nothing material surfaced. **Say this out loud, in the brief, without hedging:** *"The panel did not beat the single answer here. You could have asked once."*
+1. **Panel changed the call.** The top pick differs from the baseline's, or the order below it changed in a way that changes what the user does next. A better-argued version of the same pick is not a changed call. Say what the panel saw that a single pass missed, and quote where it surfaced.
+2. **Panel changed the confidence.** Confidence moved a full level, and you can quote the step-5 take or step-6 review line that moved it. Panelists agreeing with each other does not count: you wrote all of them, so their convergence is not independent evidence.
+3. **Panel added a decisive risk.** The baseline does not mention it at all (if it gestures at it, the panel elaborated, it did not add), and a reasonable user would do something different on learning it. State it in one sentence with a concrete consequence; if it only works as a theme, this gate is a no.
+4. **Panel added nothing.** The floor, and a legitimate result. **Say this out loud, in the brief, without hedging:** *"The panel did not beat the single answer here. You could have asked once."*
 
-Then give a one-line **"was this worth it?"** — and if the answer is no, tell the user what *would* have needed a panel, so they calibrate when to convene one next time.
+Then give a one-line **"was this worth it?"**, and if the answer is no, tell the user what *would* have needed a panel, so they calibrate when to convene one next time.
 
-**And say which round did the work.** If the panel beat the baseline, name where the decisive material came from: the **independent takes** in step 5, or the **blind peer review** in step 6. Note it too when a **scout changed its pick** between its step-4 one-liner and its full step-5 take — a probe that close is worth reporting, and it's evidence the gate was right to convene. If the review round changed nothing — no blind spot named, nothing everyone missed, no position moved for a reason — say that too, in one line: *"The peer review round didn't add anything here."* The same honesty that governs the baseline governs every mechanism in this skill; a round that can never be reported as useless is a round nobody can trust.
+**And say which round did the work.** If the panel beat the baseline, name where the decisive material came from: the **independent takes** in step 5, or the **blind peer review** in step 6. Note it too when a **scout changed its pick** between its step-4 one-liner and its full step-5 take. A probe that close is worth reporting, and it's evidence the gate was right to convene. If the review round changed nothing (no blind spot named, nothing everyone missed, no position moved for a reason), say that too, in one line: *"The peer review round didn't add anything here."* The same honesty that governs the baseline governs every mechanism in this skill; a round that can never be reported as useless is a round nobody can trust.
 
 **This verdict is not optional and it is not decorative.** It is the honest measurement this product is built on. A run that always concludes "the panel helped" is a broken run.
 
 ### 10. Deliver the brief
 
-**If the gate stopped the run at step 4**, deliver the **short brief** — the variant at the foot of `references/decision-brief-template.md`. It is a real deliverable, not a consolation prize: the user gets a ranked call with a confidence, the crux, what would change it, and an honest account of why no panel was convened. Then offer the full panel.
+**If the gate stopped the run at step 4**, deliver the **short brief**, the variant at the foot of `references/decision-brief-template.md`. It is a real deliverable, not a consolation prize: the user gets a ranked call with a confidence, the crux, what would change it, and an honest account of why no panel was convened. Then offer the full panel.
 
-Otherwise, format the final output using `references/decision-brief-template.md` — a clean, scannable decision brief the user can save, forward, or act on. Re-attach the lens names here: the reader sees who was in the room, having had the call made on the arguments alone. The brief must carry **both** the baseline and the step-9 verdict; a brief that shows only the panel's answer is incomplete.
+Otherwise, format the final output using `references/decision-brief-template.md`, a clean, scannable decision brief the user can save, forward, or act on. Re-attach the lens names here: the reader sees who was in the room, having had the call made on the arguments alone. The brief must carry **both** the baseline and the step-9 verdict; a brief that shows only the panel's answer is incomplete.
 
 ## Rules that make it trustworthy
 - **Always take the baseline, and never sandbag it.** The solo pass in step 3 must be the best single answer you can give. Weakening the control to flatter the panel is the one dishonesty that would invalidate everything else here.
 - **Never let the panel see the baseline.** Steps 4–6 run un-anchored, or the comparison in step 9 measures nothing.
 - **Review blind, unmask late.** Panelists cross-examine anonymised takes, and the names go back on only in the final brief. Arguments get ranked on merit; identity is a label for the reader, not an input to the call.
-- **A flip needs a reason.** A panelist may only change position by naming the argument that moved it. Movement toward the majority with no new argument is conformity — report it as conformity, don't count it as agreement.
-- **Be willing not to convene at all.** The step-4 gate exists to be used. Declining to run a panel, with the reason stated and the full panel offered, is a better outcome for the user than a panel that was never going to move anything — and it is the strongest possible evidence that this skill isn't just selling you its own process.
+- **A flip needs a reason.** A panelist may only change position by naming the argument that moved it. Movement toward the majority with no new argument is conformity. Report it as conformity, don't count it as agreement.
+- **Be willing not to convene at all.** The step-4 gate exists to be used. Declining to run a panel, with the reason stated and the full panel offered, is a better outcome for the user than a panel that was never going to move anything, and it is the strongest possible evidence that this skill isn't just selling you its own process.
 - **Never gate away a one-way door.** High-stakes or hard-to-reverse decisions get a panel even when the scouts agree. The gate optimises cost on reversible calls; it must never optimise away the dissent someone needed on the record.
-- **Be willing to conclude the panel was unnecessary.** "Panel added nothing" is a legitimate, expected, and *valuable* outcome — it tells the user their decision was easier than it felt and saves them the next unnecessary panel. Never manufacture a difference to justify the process.
+- **Be willing to conclude the panel was unnecessary.** "Panel added nothing" is a legitimate, expected, and *valuable* outcome. It tells the user their decision was easier than it felt and saves them the next unnecessary panel. Never manufacture a difference to justify the process.
 - **Calibrate before you convene.** Always pull the 2–3 highest-leverage unknowns forward as questions first. A panel run on guessed inputs produces a guessed answer dressed up as rigor.
 - **Real disagreement, not performance.** Panelists must diverge where genuine experts would. Manufactured consensus is the failure mode this product exists to prevent.
-- **Never collapse to false consensus.** If the honest answer is "it depends," say what it depends on — don't average the panel into mush.
+- **Never collapse to false consensus.** If the honest answer is "it depends," say what it depends on, and don't average the panel into mush.
 - **Rank, don't hedge.** Give one recommendation and own it, then the alternatives. "Do more analysis" is not a recommendation.
 - **Preserve the strongest dissent** in the final brief, at full strength. The dissent is a feature, not a caveat.
 - **Say what you don't know.** Name the assumption the whole call rests on, and what would change it.
 - **Match effort to stakes.** A reversible $500 call gets a quick panel; a hard-to-undo bet-the-company call gets the full treatment.
 
-## If subagents are available (Claude Code)
-If this is running somewhere that can spawn subagents, you may run each panelist as an independent subagent for true independence, then synthesize. If not (most installs), simply play each panelist in turn within this conversation — the discipline of *independent takes before convergence* is what matters, not the mechanism.
+## If subagents are available (Claude Code, Codex)
+If this is running somewhere that can spawn subagents, you may run each panelist as an independent subagent for true independence, then synthesize. If not (most installs), simply play each panelist in turn within this conversation. The discipline of *independent takes before convergence* is what matters, not the mechanism.
 
-**The peer review round gets sharper with subagents too.** Give each reviewer subagent only the anonymised A/B/C takes — not its own authorship, not the seating chart, not the other reviews. Anonymity you have to *maintain* in one context is anonymity a subagent simply never had.
+Codex spawns subagents only when the user asks for them. If you are in Codex and the user hasn't asked, run the panel in this conversation and end the brief with one line: saying "use subagents" next time gets the independent version.
 
-**The scouts benefit too.** Three scout subagents, each given only the framing and the calibration answers, produce a genuinely independent probe — which is the version the agreement test was designed for. In one context you are approximating it.
+**The peer review round gets sharper with subagents too.** Give each reviewer subagent only the anonymised A/B/C takes: not its own authorship, not the seating chart, not the other reviews. Anonymity you have to *maintain* in one context is anonymity a subagent simply never had.
 
-**The solo baseline benefits most of all.** Where subagents are available, run step 3 as its own subagent that receives only the framing and the calibration answers — never the panel's output. That gives a genuinely uncontaminated control rather than a self-reported one, which makes the step-9 verdict worth something.
+**The scouts benefit too.** Three scout subagents, each given only the framing and the calibration answers, produce a genuinely independent probe, which is the version the agreement test was designed for. In one context you are approximating it.
+
+**The solo baseline benefits most of all.** Where subagents are available, run step 3 as its own subagent that receives only the framing and the calibration answers, never the panel's output. That gives a genuinely uncontaminated control rather than a self-reported one, which makes the step-9 verdict worth something.
